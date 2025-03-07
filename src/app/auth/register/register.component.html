@@ -1,0 +1,50 @@
+<div class="container">
+  <div class="row">
+    <div class="col s12 m6 offset-m3">
+      <h4 class="center-align">Register</h4>
+      <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+        <div class="input-field">
+          <input
+            id="username"
+            type="text"
+            class="validate"
+            placeholder="Username"
+            formControlName="username"
+          />
+          <label for="username"></label>
+          <span class="helper-text red-text"> </span>
+        </div>
+
+        <div class="input-field">
+          <input
+            id="password"
+            [type]="isPasswordVisible ? 'text' : 'password'"
+            placeholder="Password"
+            class="validate"
+            formControlName="password"
+          />
+
+          <label for="password">
+            <i
+              class="material-icons right"
+              (click)="togglePasswordVisibility()"
+              style="cursor: pointer; color: #777777"
+            >
+              visibility
+            </i>
+          </label>
+
+          <span class="helper-text red-text"> </span>
+        </div>
+
+        <button
+          class="btn waves-effect waves-light full-width"
+          type="submit"
+          [disabled]="registerForm.invalid"
+        >
+          Register
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
