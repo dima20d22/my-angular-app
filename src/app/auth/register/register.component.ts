@@ -7,8 +7,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { loginActions, registerActions } from '../store/registerActiongroup';
+import { loginActions, registerActions } from '../store/actionGroups';
 import { AuthState } from '../types/authState';
+import { Router } from '@angular/router';
 
 @Component({
   standalone: true,
@@ -24,7 +25,8 @@ export class RegisterComponent {
 
   constructor(
     private fb: FormBuilder,
-    private store: Store<{ auth: AuthState }>
+    private store: Store<{ auth: AuthState }>,
+    private router: Router
   ) {
     this.initializeForm();
   }
@@ -52,5 +54,9 @@ export class RegisterComponent {
 
   togglePasswordVisibility() {
     this.isPasswordVisible = !this.isPasswordVisible;
+  }
+
+  goToLogin() {
+    this.router.navigate(['login']);
   }
 }

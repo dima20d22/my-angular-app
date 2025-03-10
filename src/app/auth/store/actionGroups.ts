@@ -13,7 +13,6 @@ export const loginActions = createActionGroup({
   source: '[Auth] Login',
   events: {
     login: props<{ username: string; password: string }>(),
-    loginSuccess: props<{ user: userInterface }>(),
-    logout: emptyProps(),
+    loginFailure: props<{ error: string }>(),
   },
 });

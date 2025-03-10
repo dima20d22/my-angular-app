@@ -1,5 +1,5 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
-import { registerActions, loginActions } from './registerActiongroup';
+import { registerActions, loginActions } from './actionGroups';
 import { initialState } from '../types/authState';
 
 export const authFeature = createFeature({
@@ -10,6 +10,13 @@ export const authFeature = createFeature({
     on(registerActions.register, (state, { user }) => ({
       ...state,
       user: user,
+      errorMessage: null,
+    })),
+
+    on(loginActions.loginFailure, (state, { error }) => ({
+      ...state,
+      loading: false,
+      errorMessage: error,
     })),
 
     on(loginActions.login, (state, { username, password }) => {
@@ -19,14 +26,20 @@ export const authFeature = createFeature({
         storedUser.username === username &&
         storedUser.password === password
       ) {
-        return { ...state, user: storedUser };
+        return {
+          ...state,
+          user: storedUser,
+          loading: false,
+          errorMessage: null,
+        };
+      } else {
+        return {
+          ...state,
+          user: null,
+          loading: false,
+          errorMessage: 'user not found',
+        };
       }
-      return state;
-    }),
-
-    on(loginActions.logout, (state) => ({
-      ...state,
-      user: null,
-    }))
+    })
   ),
 });

@@ -2,36 +2,58 @@
   <div class="row">
     <div class="col s12 m6 offset-m3">
       <h4 class="center-align">Login</h4>
-      <form>
+      <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
         <div class="input-field">
           <input
             id="username"
             type="text"
             class="validate"
             placeholder="Username"
+            formControlName="username"
           />
-          <label for="username"></label>
-          <span> </span>
         </div>
 
         <div class="input-field">
-          <input id="password" placeholder="Password" class="validate" />
+          <input
+            id="password"
+            placeholder="Password"
+            class="validate"
+            formControlName="password"
+            [type]="isPasswordVisible ? 'text' : 'password'"
+          />
 
           <label for="password">
             <i
               class="material-icons right"
+              (click)="togglePasswordVisibility()"
               style="cursor: pointer; color: #777777"
             >
               visibility
             </i>
           </label>
-
-          <span class="helper-text red-text"> </span>
         </div>
 
-        <button class="btn waves-effect waves-light full-width" type="submit">
+        <button
+          type="submit"
+          class="btn waves-effect waves-light full-width"
+          [disabled]="loading$ | async"
+        >
           Login
         </button>
+
+        <button
+          type="button"
+          (click)="goToRegister()"
+          class="btn waves-effect waves-light full-width right"
+        >
+          to Register
+        </button>
+        <div
+          class="card-panel red lighten-4 red-text text-darken-4"
+          *ngIf="errorMessage$ | async as errorMessage"
+        >
+          {{ errorMessage }}
+        </div>
       </form>
     </div>
   </div>
