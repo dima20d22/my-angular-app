@@ -10,6 +10,7 @@ import { Store } from '@ngrx/store';
 import { loginActions, registerActions } from '../store/actionGroups';
 import { AuthState } from '../types/authState';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -23,12 +24,16 @@ export class RegisterComponent {
   registerForm!: FormGroup;
   isPasswordVisible: boolean = false;
 
+  errorMessage$: Observable<string | null>;
+
   constructor(
     private fb: FormBuilder,
     private store: Store<{ auth: AuthState }>,
     private router: Router
   ) {
     this.initializeForm();
+
+    this.errorMessage$ = this.store.select((state) => state.auth.errorMessage);
   }
 
   initializeForm() {
@@ -41,22 +46,31 @@ export class RegisterComponent {
   onRegister() {
     if (this.registerForm.valid) {
       const user = this.registerForm.value;
-      localStorage.setItem('user', JSON.stringify(user));
+
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+
+      const existingUser = users.find((u: any) => u.username === user.username);
+
+      if (existingUser) {
+        this.store.dispatch(
+          registerActions.registerFailure({ error: 'Name is already taken' })
+        );
+        return;
+      }
+
+      users.push(user);
+      localStorage.setItem('users', JSON.stringify(users));
       this.store.dispatch(registerActions.register({ user }));
-      this.registerForm.reset();
+
+      this.router.navigate(['home']);
     }
   }
-
-  onLogin() {
-    const { username, password } = this.registerForm.value;
-    this.store.dispatch(loginActions.login({ username, password }));
-  }
-
   togglePasswordVisibility() {
     this.isPasswordVisible = !this.isPasswordVisible;
   }
 
   goToLogin() {
+    this.store.dispatch(loginActions.loginFailure({ error: '' }));
     this.router.navigate(['login']);
   }
 }

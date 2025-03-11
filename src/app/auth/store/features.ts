@@ -7,10 +7,33 @@ export const authFeature = createFeature({
   reducer: createReducer(
     initialState,
 
-    on(registerActions.register, (state, { user }) => ({
+    on(registerActions.register, (state, { user }) => {
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+
+      const existingUser = users.find((u: any) => u.username === user.username);
+
+      if (existingUser) {
+        return {
+          ...state,
+          loading: false,
+          errorMessage: 'Name is already taken',
+        };
+      }
+
+      const updatedUsers = [...users, user];
+      localStorage.setItem('users', JSON.stringify(updatedUsers));
+      return {
+        ...state,
+        user: user,
+        loading: false,
+        errorMessage: null,
+      };
+    }),
+
+    on(registerActions.registerFailure, (state, { error }) => ({
       ...state,
-      user: user,
-      errorMessage: null,
+      loading: false,
+      errorMessage: error,
     })),
 
     on(loginActions.loginFailure, (state, { error }) => ({
@@ -20,15 +43,15 @@ export const authFeature = createFeature({
     })),
 
     on(loginActions.login, (state, { username, password }) => {
-      const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
 
-      if (
-        storedUser.username === username &&
-        storedUser.password === password
-      ) {
+      const existingUser = users.find(
+        (u: any) => u.username === username && u.password === password
+      );
+
+      if (existingUser) {
         return {
           ...state,
-          user: storedUser,
           loading: false,
           errorMessage: null,
         };

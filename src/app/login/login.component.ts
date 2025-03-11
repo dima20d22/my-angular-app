@@ -43,25 +43,36 @@ export class LoginComponent {
   }
 
   onLogin() {
-    if (this.loginForm.valid) {
-      const { username, password } = this.loginForm.value;
-      this.store.dispatch(loginActions.login({ username, password }));
-      // const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
+    if (this.loginForm.invalid) {
+      this.store.dispatch(
+        loginActions.loginFailure({ error: 'All fields must be filled' })
+      );
+      return;
+    }
 
-      // if (
-      //   storedUser.username === username &&
-      //   storedUser.password === password
-      // ) {
-      //   this.router.navigate(['home']);
-      // } else if (this.loginForm.value.username == '') {
-      //   console.log('error');
-      // }
+    if (this.loginForm.valid) {
+      const user = this.loginForm.value;
+
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+
+      const existingUser = users.find(
+        (u: any) => u.username === user.username && u.password === user.password
+      );
+
+      if (existingUser) {
+        this.router.navigate(['home']);
+      } else {
+        this.store.dispatch(
+          loginActions.loginFailure({ error: 'Incorrect name or password' })
+        );
+      }
     }
   }
   togglePasswordVisibility() {
     this.isPasswordVisible = !this.isPasswordVisible;
   }
   goToRegister() {
+    this.store.dispatch(loginActions.loginFailure({ error: '' }));
     this.router.navigate(['register']);
   }
 }
