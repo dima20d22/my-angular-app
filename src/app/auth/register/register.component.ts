@@ -11,6 +11,7 @@ import { loginActions, registerActions } from '../store/actionGroups';
 import { AuthState } from '../types/authState';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { selectErrorMessage } from '../store/features';
 
 @Component({
   standalone: true,
@@ -23,8 +24,11 @@ import { Observable } from 'rxjs';
 export class RegisterComponent {
   registerForm!: FormGroup;
   isPasswordVisible: boolean = false;
+  errorMessage$!: Observable<string | null>;
 
-  errorMessage$: Observable<string | null>;
+  ngOnInit(): void {
+    this.errorMessage$ = this.store.select(selectErrorMessage);
+  }
 
   constructor(
     private fb: FormBuilder,
@@ -32,8 +36,6 @@ export class RegisterComponent {
     private router: Router
   ) {
     this.initializeForm();
-
-    this.errorMessage$ = this.store.select((state) => state.auth.errorMessage);
   }
 
   initializeForm() {

@@ -1,6 +1,20 @@
-import { createFeature, createReducer, on } from '@ngrx/store';
+import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 import { registerActions, loginActions } from './actionGroups';
 import { initialState } from '../types/authState';
+
+export const selectAuthState = (state: { auth: any }) => state.auth;
+export const selectLoading = createSelector(
+  selectAuthState,
+  (state) => state.loading
+);
+export const selectErrorMessage = createSelector(
+  selectAuthState,
+  (state) => state.errorMessage
+);
+export const selectUsers = createSelector(
+  selectAuthState,
+  (state) => state.users
+);
 
 export const authFeature = createFeature({
   name: 'auth',
@@ -42,11 +56,11 @@ export const authFeature = createFeature({
       errorMessage: error,
     })),
 
-    on(loginActions.login, (state, { username, password }) => {
+    on(loginActions.login, (state, { user }) => {
       const users = JSON.parse(localStorage.getItem('users') || '[]');
 
       const existingUser = users.find(
-        (u: any) => u.username === username && u.password === password
+        (u: any) => u.username === user.username && u.password === user.password
       );
 
       if (existingUser) {

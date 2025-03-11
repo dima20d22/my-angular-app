@@ -9,8 +9,9 @@ import {
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { AuthState } from '../auth/types/authState';
-import { loginActions } from '../auth/store/actionGroups';
+import { AuthState } from '../types/authState';
+import { loginActions } from '../store/actionGroups';
+import { selectErrorMessage, selectLoading } from '../store/features';
 
 @Component({
   standalone: true,
@@ -21,18 +22,20 @@ import { loginActions } from '../auth/store/actionGroups';
 })
 export class LoginComponent {
   loginForm!: FormGroup;
-  loading$: Observable<boolean>;
-  errorMessage$: Observable<string | null>;
   isPasswordVisible: boolean = false;
+  loading$!: Observable<boolean>;
+  errorMessage$!: Observable<string>;
 
+  ngOnInit(): void {
+    this.loading$ = this.store.select(selectLoading);
+    this.errorMessage$ = this.store.select(selectErrorMessage);
+  }
   constructor(
     private fb: FormBuilder,
     private store: Store<{ auth: AuthState }>,
     private router: Router
   ) {
     this.initializeForm();
-    this.loading$ = this.store.select((state) => state.auth.loading);
-    this.errorMessage$ = this.store.select((state) => state.auth.errorMessage);
   }
 
   initializeForm() {

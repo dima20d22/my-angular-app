@@ -12,7 +12,7 @@ export const registerActions = createActionGroup({
 export const loginActions = createActionGroup({
   source: '[Auth] Login',
   events: {
-    login: props<{ username: string; password: string }>(),
+    login: props<{ user: userInterface }>(),
     loginFailure: props<{ error: string }>(),
   },
 });
