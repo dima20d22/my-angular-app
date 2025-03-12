@@ -9,12 +9,17 @@
   width: 70%;
   margin-left: auto;
   margin-right: auto;
-  padding: 4px 20px;
   position: fixed;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1000;
+}
+
+.container {
+  width: 1170px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .menu-item {
