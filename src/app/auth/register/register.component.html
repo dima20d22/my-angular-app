@@ -16,7 +16,7 @@
         <div class="input-field">
           <input
             id="password"
-            [type]="isPasswordVisible ? 'text' : 'password'"
+            [type]="formAuthService.isPasswordVisible ? 'text' : 'password'"
             placeholder="Password"
             class="validate"
             formControlName="password"
@@ -25,7 +25,7 @@
           <label for="password">
             <i
               class="material-icons right"
-              (click)="togglePasswordVisibility()"
+              (click)="formAuthService.togglePasswordVisibility()"
               style="cursor: pointer; color: #777777"
             >
               visibility
