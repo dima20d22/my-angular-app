@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
 import { AuthState } from '../types/authState';
 import { loginActions } from '../store/actionGroups';
 import { selectErrorMessage, selectLoading } from '../store/features';
+import { formAuthService } from '../shared/form.service';
 
 @Component({
   standalone: true,
@@ -22,27 +23,17 @@ import { selectErrorMessage, selectLoading } from '../store/features';
 })
 export class LoginComponent {
   loginForm!: FormGroup;
-  isPasswordVisible: boolean = false;
   loading$!: Observable<boolean>;
   errorMessage$!: Observable<string>;
 
-  ngOnInit(): void {
-    this.loading$ = this.store.select(selectLoading);
-    this.errorMessage$ = this.store.select(selectErrorMessage);
-  }
   constructor(
-    private fb: FormBuilder,
     private store: Store<{ auth: AuthState }>,
-    private router: Router
+    private router: Router,
+    public formAuthService: formAuthService
   ) {
-    this.initializeForm();
-  }
-
-  initializeForm() {
-    this.loginForm = this.fb.group({
-      username: ['', [Validators.required]],
-      password: ['', [Validators.required]],
-    });
+    this.loginForm = this.formAuthService.initializeLoginForm();
+    this.errorMessage$ = this.store.select(selectErrorMessage);
+    this.loading$ = this.store.select(selectLoading);
   }
 
   onLogin() {
@@ -71,11 +62,10 @@ export class LoginComponent {
       }
     }
   }
-  togglePasswordVisibility() {
-    this.isPasswordVisible = !this.isPasswordVisible;
-  }
+
   goToRegister() {
     this.store.dispatch(loginActions.loginFailure({ error: '' }));
     this.router.navigate(['register']);
+    this.loginForm.reset();
   }
 }

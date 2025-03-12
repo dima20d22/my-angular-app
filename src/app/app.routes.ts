@@ -6,7 +6,7 @@ import { HomeComponent } from './main/home/home.component';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: '/register',
+    redirectTo: 'register',
     pathMatch: 'full',
   },
   {

@@ -30,7 +30,6 @@ export const authFeature = createFeature({
         return {
           ...state,
           loading: false,
-          errorMessage: 'Name is already taken',
         };
       }
 
@@ -74,7 +73,6 @@ export const authFeature = createFeature({
           ...state,
           user: null,
           loading: false,
-          errorMessage: 'user not found',
         };
       }
     })

@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { selectErrorMessage, selectLoading } from '../store/features';
 import { Store } from '@ngrx/store';
 import { AuthState } from '../types/authState';
-import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -15,15 +13,9 @@ export class formAuthService {
   isPasswordVisible: boolean = false;
   errorMessage$!: Observable<string | null>;
 
-  ngOnInit(): void {
-    this.errorMessage$ = this.store.select(selectErrorMessage);
-  }
-
-  constructor(
-    private fb: FormBuilder,
-    private store: Store<{ auth: AuthState }>
-  ) {
+  constructor(private fb: FormBuilder) {
     this.initializeRegisterForm();
+    this.initializeLoginForm();
   }
   initializeRegisterForm() {
     this.registerForm = this.fb.group({
@@ -35,8 +27,8 @@ export class formAuthService {
 
   initializeLoginForm() {
     this.registerForm = this.fb.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required],
+      username: ['', [Validators.required]],
+      password: ['', [Validators.required]],
     });
     return this.registerForm;
   }
