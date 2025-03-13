@@ -11,14 +11,11 @@
   <div class="row">
     <div class="col s12 m6" *ngFor="let card of cards">
       <div class="card">
-        <div class="card-content">
+        <div (click)="openVideo(card.videoUrl)" class="card-content">
           <h2>{{ card.title }}</h2>
           <p>
             {{ card.description }}
           </p>
-          <a (click)="openVideo(card.videoUrl)" class="card-link"
-            >Wie man Zähne richtig putzt</a
-          >
         </div>
       </div>
     </div>
@@ -27,8 +24,7 @@
       <div class="modal-content">
         <button (click)="closeVideo($event)" class="close-button">X</button>
         <iframe
-          width="560"
-          height="315"
+          class="iframe"
           [src]="videoUrl | safe"
           frameborder="0"
           allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"

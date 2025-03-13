@@ -128,3 +128,19 @@
 .card-link:hover {
   color: #26a69a;
 }
+
+.iframe {
+  width: 560px;
+  height: 315px;
+}
+
+@media (max-width: 768px) {
+  .modal-content {
+    display: block;
+  }
+  .iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}
