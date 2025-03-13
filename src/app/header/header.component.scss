@@ -1,14 +1,11 @@
-.brand-logo {
-  cursor: pointer;
-}
-
 .custom-nav {
   background-color: #2bbbad;
   border-radius: 24px;
   margin-top: 20px;
-  width: 70%;
-  margin-left: auto;
-  margin-right: auto;
+  // width: 90%;
+  max-width: 1170px;
+  padding-left: 15px;
+  padding-right: 15px;
   position: fixed;
   top: 0;
   left: 50%;
@@ -16,32 +13,43 @@
   z-index: 1000;
 }
 
-.container {
-  width: 1170px;
-  padding-left: 15px;
-  padding-right: 15px;
+.nav-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
 }
 
-.menu-item {
-  color: white;
-  font-weight: bold;
-  text-decoration: none;
+.right {
   list-style: none;
-  margin: 0 10px;
-  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+}
 
-  &:hover {
-    list-style: none;
-    margin: 0 10px;
-    transition: transform 0.3s ease;
-    transform: scale(1.1);
-    background: none;
-  }
+.brand-logo {
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+  color: white;
+  min-width: 150px;
+  white-space: nowrap;
+  flex-grow: 0;
+  margin-right: 20px;
 }
 
 .menu-item-link {
-  background-color: transparent;
+  color: white;
   background: none;
+  text-decoration: none;
+  font-weight: bold;
+  transition: transform 0.3s ease;
+}
+
+.menu-item-link:hover {
+  transform: scale(1.1);
 }
 
 .custom-btn {
@@ -49,22 +57,65 @@
   font-weight: bold;
   background-color: white;
   color: #2bbbad;
-  transition: transform 0.3s ease, background-color 0.3s ease,
-    border-color 0.3s ease;
+  padding: 8px 12px;
+  border: none;
+  white-space: nowrap;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+}
 
-  &:hover {
-    background-color: #26a69a;
+.custom-btn:hover {
+  background-color: #26a69a;
+  color: white;
+}
+
+@media (max-width: 992px) {
+  .custom-nav {
+    width: 95%;
+  }
+
+  .nav-wrapper {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .right {
+    display: none;
+  }
+
+  .custom-btn {
+    display: inline-block;
+    padding: 12px;
+  }
+
+  .sidenav-trigger {
+    display: block;
     color: white;
-    border-color: #26a69a;
-    transform: scale(1.1);
+    font-size: 2rem;
   }
 }
 
-// .sidenav {
-//   background-color: #2bbbad;
-//   border-radius: 15px;
-// }
+@media (min-width: 1124px) {
+  .sidenav-trigger {
+    display: none;
+  }
+}
 
-// .sidenav a {
-//   color: white;
-// }
+@media (max-width: 768px) {
+  .brand-logo {
+    font-size: 1.2rem;
+    flex-grow: 0;
+    display: flex;
+  }
+
+  .custom-btn {
+    display: none;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    margin-left: 0;
+  }
+}
