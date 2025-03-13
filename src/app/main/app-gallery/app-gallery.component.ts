@@ -3,11 +3,10 @@ import { Component, HostListener } from '@angular/core';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { SafePipe } from '../musor/safe.pipe';
 import { CommonModule } from '@angular/common';
-import { PlyrModule } from 'ngx-plyr';
 
 @Component({
   selector: 'app-gallery',
-  imports: [NgxGalleryModule, SafePipe, CommonModule, PlyrModule],
+  imports: [NgxGalleryModule, SafePipe, CommonModule],
   templateUrl: './app-gallery.component.html',
   styleUrl: './app-gallery.component.scss',
 })
