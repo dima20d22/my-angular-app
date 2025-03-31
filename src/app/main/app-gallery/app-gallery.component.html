@@ -4,42 +4,42 @@
     Zahnpflege ist nicht nur eine Frage der Ästhetik, sondern auch der
     Gesundheit. Zähne spielen eine entscheidende Rolle im Verdauungsprozess und
     beeinflussen unsere allgemeine Gesundheit. Eine richtige Zahnpflege hilft,
-    Zahnfleischerkrankungen, Karies und sogar schwerwiegendere Probleme wie
+    Zahnfleischerkrankungen, Karies und schwerwiegendere Probleme wie
     Zahnverlust zu vermeiden.
   </p>
 
-  <div class="row">
-    <div class="col s12 m6" *ngFor="let card of cards">
-      <div class="card">
-        <div (click)="openVideo(card.videoUrl)" class="card-content">
-          <h2>{{ card.title }}</h2>
-          <p>
-            {{ card.description }}
-          </p>
-        </div>
-      </div>
-    </div>
+  <button class="scroll-button left" (click)="scrollLeft()">
+    <i class="material-icons">chevron_left</i>
+  </button>
 
-    <div *ngIf="isModalOpen" class="modal-overlay">
-      <div class="modal-content">
-        <button (click)="closeVideo($event)" class="close-button">X</button>
-        <iframe
-          class="iframe"
-          [src]="videoUrl | safe"
-          frameborder="0"
-          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
-        ></iframe>
+  <div class="cards-wrapper" #cardsWrapper>
+    <div
+      class="card"
+      *ngFor="let card of cards"
+      (click)="openVideo(card.videoUrl)"
+    >
+      <img [src]="card.picture" alt="Zähne" />
+      <div class="watch-video-overlay">Watch Video</div>
+      <div class="card-content">
+        <h2>{{ card.title }}</h2>
       </div>
     </div>
   </div>
 
-  <!-- <div class="footer center-align">
-    <h3>Fazit</h3>
-    <p>
-      Zahnpflege ist der Schlüssel zu einem schönen Lächeln und einer guten
-      Gesundheit. Regelmäßige Zahnhygiene, eine ausgewogene Ernährung und
-      regelmäßige Zahnarztbesuche helfen, viele Probleme zu vermeiden.
-    </p>
-  </div> -->
+  <button class="scroll-button right" (click)="scrollRight()">
+    <i class="material-icons">chevron_right</i>
+  </button>
+
+  <div *ngIf="isModalOpen" class="modal-overlay">
+    <div class="modal-content">
+      <button (click)="closeVideo($event)" class="close-button">X</button>
+      <iframe
+        class="iframe"
+        [src]="videoUrl | safe"
+        frameborder="0"
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+    </div>
+  </div>
 </div>
